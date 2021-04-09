@@ -14,7 +14,7 @@ class Market {
          });
       })
       .catch((err) => {
-        res.status(500).json({ msg: 'Failed find all markets' });
+        throw ({name: 'Failed_get_all'})
       });
   }
    
@@ -26,7 +26,7 @@ class Market {
         res.status(201).json({ msg: `Success find market with id : ${id}`, data: result });
       })
       .catch((err) => {
-        res.staus(500).json({ msg: `Failed find market with id : ${id}`, data: err });
+        throw ({name: 'Failed_get_detail'})
       });
      
   }
@@ -61,33 +61,9 @@ class Market {
         res.status(201).json({msg: `Success updating market with id : ${id}`,data: result,});
       })
       .catch((err) => {
-        res.status(500).json({ msg: `Failed updating market with id : ${id}`, data: err });
+        throw({name: 'Failed_updated'})
       });
   }
-
-  static pushMarket(req, res, next) {
-    const { id } = req.params;
-     userModel.findById(req.userID)
-      .then((foundUser) => {
-         const markets = foundUser.resource.markets
-         markets.forEach(market => {
-            if (id == market) {
-               res.status(500).json({msg: 'This id market has been pushed before..'})
-               res.end()
-            } else {
-               userModel.findByIdAndUpdate(req.userID, { $push: { 'resource.markets': id } }, { new: true })
-               .then((_)=> res.status(201).json({msg: `Success push market with id : ${id} to Resource Market`}))
-               .catch((err)=> res.status(500).json({msg: `Failed push market with id : ${id} to Resource Market`, data: err }))
-            }
-         });
-      })
-  }
-   
-   static deleteMarketInUser(req, res) {
-      userModel.findByIdAndUpdate(req.userID, { $pull: { 'resource.markets': req.params.id } }, { new: true })
-      .then((_)=> res.status(201).json({msg: `Success pull market with id : ${req.params.id} to Resource Market`}))
-      .catch((err)=> res.status(500).json({msg: `Failed pull market with id : ${req.params.id} to Resource Market`, data: err }))
-   }
 
   static deleteMarket(req, res) {
      const { id } = req.params;
@@ -101,11 +77,6 @@ class Market {
       });
   }
 
-   static deleteMany(req, res) {
-      const {userId} = req.body
-      marketModel.deleteMany({ users: { $in: userId } })
-      .then((result)=> res.json({msg: 'Success delete all market'}))
-   }
    
    static collect(req, res) {
       marketModel.findById(req.params.id)

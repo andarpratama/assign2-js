@@ -18,10 +18,10 @@ class Auth {
             })
             res.status(201).json({data: newUser})
          } else {
-            res.status(500).json({msg: 'Please input name, email and password'})
+            throw ({name: 'Login_required_input'})
          }
       } catch {
-         res.status(500).json({data: 'Error'})
+         throw ({name: 'Failed_register'})
       }
       
   }
@@ -44,15 +44,9 @@ class Auth {
         res.status(200).json({ msg: 'Success login', data: result, accessToken: token });
       })
       .catch((err) => {
-        res.status(500).json({ msg: 'Failed login', data: err });
+        throw ({name: 'Failed_login'})
       });
   }
-   
-   static logout(req, res) {
-      const {access_token} = req.headers
-      jwt.destroy(access_token)
-      res.json({msg: 'Logout..'})
-   }
 }
 
 

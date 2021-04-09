@@ -9,14 +9,10 @@ class Users {
          res.status(201).json({msg: `Success get all users`, data: result})
       })
       .catch((err) => {
-         res.status(500).json({msg: `Failed get all users`, data: err})
+         throw ({name: 'Failed_get_all'})
       })
    }
 
-   static cekid(req, res) {
-      console.log(req.userID)
-      res.json({userId: req.userID})
-   }
 
   static detail(req, res) {
       const id = req.userID
@@ -25,7 +21,7 @@ class Users {
          res.status(201).json({msg: `Detail resource townhall`, data: result})
       })
       .catch((err) => {
-         res.status(500).json({msg: `Cannot see detail resource townhall`, data: err})
+         throw ({name: 'Failed_get_detail'})
       })
   }
 
@@ -50,7 +46,7 @@ class Users {
         res.status(200).json({ msg: 'Success update the user', data: result });
       })
       .catch((err) => {
-        res.status(500).json({ msg: 'Failed update the user' });
+        throw ({name: 'Failed_updated'})
       });
     }
 
@@ -61,7 +57,7 @@ class Users {
             res.status(201).json({msg: `Success delete your user`})
          })
          .catch((err) => {
-            res.status(500).json({msg: 'Failed delete your user'})
+            throw ({name: 'Failed_deleted'})
          })
    }
    
@@ -112,21 +108,21 @@ class Users {
                         'resource.medal': - Math.floor(resource.medal / 2),
                      }}, {new: true})
                      
-                     res.status(500).json({msg: 'Sorry you lose..', data: decMedal})
+                     res.status(200).json({msg: 'Sorry you lose..', data: decMedal})
                   }
 
                } else {
-                  res.status(500).json({ msg: 'Your soldiers greater than enemy soldier' })
+                  throw ({name: 'Your_soldiers_greater'})
                }
             } else {
-               res.status(500).json({ msg: 'Cant attack, enemy soldier less than 50' })
+               throw ({name: 'Enemy_soldier_not_enough'})
             }
          } else {
-            res.status(500).json({ msg: 'Soldier is not enough' })
+            throw ({name: 'Failed_attack_soldier_not_enough'})
          }
 
       } catch {
-         res.status(500).json({ msg: 'Failed to attack enemy'})
+         throw ({name: 'Failed_attack'})
       }
    }
 }

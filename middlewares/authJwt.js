@@ -11,7 +11,7 @@ class authJwt {
       
       jwt.verify(access_token, process.env.SECRET_KEY, (err, decoded) => {
          if (err) {
-            res.status(401).json({ msg: 'Invalid token..', success: false })
+            throw ({name: 'Invalid_Token'})
          }
          // id dari token dan dimasukan kedalam req
          req.userID = decoded.id 

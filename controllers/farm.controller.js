@@ -1,4 +1,4 @@
-x  const farmModel = require('../models/Farm')
+const farmModel = require('../models/Farm')
 
 class Farm {
    static getAll(req, res) {
@@ -7,7 +7,7 @@ class Farm {
             res.status(201).json({msg: 'Success find all farms', data: result})
          })
          .catch((err) => {
-            res.status(500).json({msg: 'Failed find all farms', data: err})
+            throw ({name: 'Failed_get_all'})
          })
    }
 
@@ -18,7 +18,7 @@ class Farm {
             res.status(201).json({msg: `Success find farm with id : ${id}`, data: result})
          })
          .catch((err) => {
-            res.status(500).json({msg: `Failed find farm with id : ${id}`})
+            throw ({name: 'Failed_get_detail'})
          })
    }
 
@@ -29,7 +29,7 @@ class Farm {
             res.status(201).json({msg: 'Success creating new Farm', data: result})
          })
          .catch((err) => {
-            res.status(500).json({msg: 'Failed creating new Farm', data: err})
+            throw({name: 'Failed_created'})
          })
    }
 
@@ -41,7 +41,7 @@ class Farm {
             res.status(201).json({msg: `Success updating farm with id : ${id}`, data: result})
          })
          .catch((err) => {
-            res.status(500).json({msg: `Failed updating farm with id : ${id}`, data: err})
+            throw({name: 'Failed_updated'})
          })
    }
 
@@ -52,7 +52,7 @@ class Farm {
             res.status(201).json({msg: `Success deleting farm with id : ${id}`})
          })
          .catch((err) => {
-            res.status(500).json({msg: `Failed deleting farm with id : ${id}`})
+            throw({name: 'Failed_deleted'})
          })
    }
 }

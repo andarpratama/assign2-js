@@ -14,7 +14,7 @@ class Barrack {
          });
       })
       .catch((err) => {
-        res.status(500).json({ msg: 'Failed find all barracks' });
+        throw ({name: 'Failed_get_all'})
       });
   }
 
@@ -23,7 +23,9 @@ class Barrack {
          .then((result) => {
             res.status(201).json({msg: `Success get market with id : ${req.params.id}`, data: result})
          })
-         .catch((err)=> res.status(500).json({msg: `Failed get market with id : ${req.params.id}`, data: err}))
+         .catch((err) => {
+            throw ({name: 'Failed_get_detail'})
+         })
    }
 
    static async createBarrack(req, res) {
@@ -56,7 +58,7 @@ class Barrack {
             res.status(201).json({msg: `Success update barrack with id : ${req.params.id}`, data: result})
          })
          .catch((err) => {
-            res.status(500).json({msg: `Failed update barrack with id : ${req.params.id}`, data: err})
+            throw({name: 'Failed_updated'})
          })
    }
 
@@ -68,7 +70,7 @@ class Barrack {
         res.status(201).json({ msg: `Success deleting barrack with id : ${id}` });
       })
       .catch((err) => {
-        res.status(500).json({ msg: 'Failed deleting barrack', data: err });
+        throw({name: 'Failed_deleted'})
       });
   }
 
